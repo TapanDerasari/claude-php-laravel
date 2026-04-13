@@ -33,9 +33,15 @@ function validateFile(string $path): array
     if ($content === false) {
         return ["$path: could not read file"];
     }
+    // Plain markdown files (navigation docs, READMEs) have no frontmatter header.
+    // Skip them silently. Files that START with --- but are missing the closing ---
+    // are still flagged as malformed.
+    if (!str_starts_with($content, "---\n")) {
+        return [];
+    }
     $fm = parseFrontmatter($content);
     if ($fm === null) {
-        return ["$path: missing or malformed frontmatter"];
+        return ["$path: malformed frontmatter (missing closing ---)"];
     }
     foreach (REQUIRED_FIELDS as $field) {
         if (empty($fm[$field])) {

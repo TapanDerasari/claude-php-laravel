@@ -15,6 +15,8 @@ the path shown in its `paste-into:` frontmatter and you're done.
 <!-- INDEX:START -->
 | Stack | Type | Name | Description | Paste into |
 |-------|------|------|-------------|------------|
+| laravel | agent | laravel-code-reviewer | Reviews Laravel changes for framework conventions, thin controllers, and correct use of Eloquent/Form Requests/Policies. | `.claude/agents/laravel-code-reviewer.md` |
+| laravel | agent | migration-safety-reviewer | Reviews Laravel migrations for production safety — additive-only changes, FK indexes, and rollback coverage. | `.claude/agents/migration-safety-reviewer.md` |
 | laravel | rule | blade | Blade templating rules for safe escaping, components, and thin views. | `CLAUDE.md` |
 | laravel | rule | coding-style | Laravel naming, folder conventions, and thin-controller guidance. | `CLAUDE.md` |
 | laravel | rule | eloquent | Eloquent best practices for query safety, performance, and idempotency. | `CLAUDE.md` |

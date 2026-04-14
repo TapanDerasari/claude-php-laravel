@@ -20,6 +20,8 @@ the path shown in its `paste-into:` frontmatter and you're done.
 | php | rule | patterns | SOLID principles, dependency injection, value objects, and composition for PHP. | `CLAUDE.md` |
 | php | rule | security | Input validation, prepared statements, escaping, hashing, and secret handling for PHP. | `CLAUDE.md` |
 | php | rule | testing | PHPUnit conventions, AAA structure, and fixture hygiene for PHP projects. | `CLAUDE.md` |
+| php | skill | composer-audit | Run `composer audit` after any dependency change and report security advisories. | `.claude/skills/composer-audit/` |
+| php | skill | phpstan-runner | Run PHPStan static analysis after editing PHP files and surface errors to the user. | `.claude/skills/phpstan-runner/` |
 <!-- INDEX:END -->
 
 ## Documentation

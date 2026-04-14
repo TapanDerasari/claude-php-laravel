@@ -28,6 +28,10 @@ the path shown in its `paste-into:` frontmatter and you're done.
 | laravel | rule | testing-pest | Pest testing conventions for Laravel feature and unit tests. | `CLAUDE.md` |
 | laravel | skill | artisan-make | Use `php artisan make:*` generators idiomatically instead of hand-writing Laravel scaffolding. | `.claude/skills/artisan-make/` |
 | laravel | skill | eloquent-query-builder | Write safe, performant Eloquent queries with eager loading, chunking, scopes, and no N+1 traps. | `.claude/skills/eloquent-query-builder/` |
+| laravel | skill | laravel-patterns | Controllers→Services→Actions, DTOs, Service Container bindings, API response shape, Query Objects, transactions, caching, and events/queues for production Laravel apps. | `.claude/skills/laravel-patterns/` |
+| laravel | skill | laravel-plugin-discovery | Discover and evaluate Laravel packages by health, version compatibility, and vendor reputation via the LaraPlugins.io MCP server. | `.claude/skills/laravel-plugin-discovery/` |
+| laravel | skill | laravel-security | Sanctum token patterns, file upload safety, security headers middleware, CORS config, and log redaction for Laravel APIs. | `.claude/skills/laravel-security/` |
+| laravel | skill | laravel-verification | Seven-phase pre-PR and pre-deployment verification pipeline: environment, autoload, lint, tests, audit, migrations, and cache. | `.claude/skills/laravel-verification/` |
 | laravel | skill | pest-test-writer | Scaffold a Pest test for a given Laravel class with the right layout, fakes, and meaningful assertions. | `.claude/skills/pest-test-writer/` |
 | php | agent | php-code-reviewer | Reviews plain PHP code for PSR-12 style, security issues, and SOLID violations. | `.claude/agents/php-code-reviewer.md` |
 | php | rule | coding-style | PSR-12 formatting, strict types, and naming conventions for PHP code. | `CLAUDE.md` |

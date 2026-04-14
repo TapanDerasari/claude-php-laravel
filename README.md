@@ -15,6 +15,11 @@ the path shown in its `paste-into:` frontmatter and you're done.
 <!-- INDEX:START -->
 | Stack | Type | Name | Description | Paste into |
 |-------|------|------|-------------|------------|
+| php | rule | coding-style | PSR-12 formatting, strict types, and naming conventions for PHP code. | `CLAUDE.md` |
+| php | rule | hooks | When to run Composer, PHPStan, and formatters — and how to wire them as Claude Code hooks. | `CLAUDE.md` |
+| php | rule | patterns | SOLID principles, dependency injection, value objects, and composition for PHP. | `CLAUDE.md` |
+| php | rule | security | Input validation, prepared statements, escaping, hashing, and secret handling for PHP. | `CLAUDE.md` |
+| php | rule | testing | PHPUnit conventions, AAA structure, and fixture hygiene for PHP projects. | `CLAUDE.md` |
 <!-- INDEX:END -->
 
 ## Documentation

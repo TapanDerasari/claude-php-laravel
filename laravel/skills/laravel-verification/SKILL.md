@@ -60,7 +60,7 @@ Run the formatter in check mode, then PHPStan.
 ./vendor/bin/pint --test
 ```
 
-Expected: `No files need formatting.` If Pint reports changed files, run `./vendor/bin/pint` (no `--test`) and commit the result before continuing.
+Exits 0 with no output if nothing needs formatting. Exits non-zero and lists changed files otherwise. If Pint reports changed files, run `./vendor/bin/pint` (no `--test`) and commit the result before continuing.
 
 ```bash
 ./vendor/bin/phpstan analyse --memory-limit=1G --no-progress
@@ -88,7 +88,7 @@ For coverage (requires Xdebug):
 XDEBUG_MODE=coverage php artisan test --coverage --min=80
 ```
 
-Expected: all tests pass, exit 0.
+Expected: all tests pass. Non-zero exit means failures.
 
 **Stop if:** any test fails. Do not proceed to later phases with a failing suite.
 
@@ -121,11 +121,10 @@ Review the SQL output. Confirm no unexpected destructive operations (unintended 
 Check that every `up()` has a corresponding `down()`:
 
 ```bash
-grep -c "function up"   database/migrations/*.php
-grep -c "function down" database/migrations/*.php
+grep -rL "function down" database/migrations/*.php
 ```
 
-Counts should match. A migration missing `down()` cannot be rolled back in an incident.
+Empty output means every migration has a `down()`. Any filename printed is a migration that cannot be rolled back.
 
 **Stop if:** `--pretend` shows a destructive change you did not intend.
 
@@ -152,9 +151,11 @@ php artisan view:cache
 Verify storage permissions are writable by the web server user:
 
 ```bash
-ls -la storage/
-ls -la bootstrap/cache/
+[ -w storage/logs ] && echo "storage/logs writable" || echo "storage/logs NOT WRITABLE"
+[ -w bootstrap/cache ] && echo "bootstrap/cache writable" || echo "bootstrap/cache NOT WRITABLE"
 ```
+
+Both must be writable by the web server user.
 
 ---
 
@@ -169,3 +170,5 @@ ls -la bootstrap/cache/
 | 5. Security audit | on dep change | required | — |
 | 6. Migrations | required | required | required |
 | 7. Cache & build | — | — | required |
+
+Phase 5 is omitted from the Staging/Prod column because CI is assumed to have run it — if deploying a hotfix that bypasses CI, run `composer audit` manually.

@@ -64,12 +64,17 @@ Define a plain readonly class for the data crossing the boundary:
 ```php
 final readonly class CreateOrderData
 {
+    /**
+     * @param  ItemData[]  $items
+     */
     public function __construct(
         public int $customerId,
         public array $items,
     ) {}
 }
 ```
+
+> For stricter typing, replace `array` with a typed value object collection under `app/Support/`.
 
 Add a `toDto()` method to the Form Request:
 
@@ -140,6 +145,13 @@ final class OrdersController extends Controller
 }
 ```
 
+### When to use a Service vs an Action
+
+Use an **Action** for a single, atomic use case (`CreateOrder`, `CancelSubscription`).
+Use a **Service** when you need to coordinate multiple actions or share stateful behaviour across several entry points (e.g., `OrderFulfillmentService` that calls `ChargePaymentAction`, `ReserveStockAction`, and `SendConfirmationAction` in sequence).
+
+Most features start as an Action. Promote to a Service only when coordination logic would otherwise repeat across controllers or jobs.
+
 ## Service Container bindings
 
 Bind interfaces to implementations in `AppServiceProvider` so consumers depend on contracts, not concrete classes:
@@ -202,6 +214,23 @@ return response()->json([
 
 Never vary the envelope shape — clients should be able to type it once.
 
+To avoid copy-pasting the envelope at every call site, extract a `apiSuccess()` / `apiError()` helper on a base controller or as a trait:
+
+```php
+trait ApiResponds
+{
+    protected function apiSuccess(mixed $data, array $meta = null, int $status = 200): JsonResponse
+    {
+        return response()->json(['success' => true, 'data' => $data, 'error' => null, 'meta' => $meta], $status);
+    }
+
+    protected function apiError(string $message, int $status = 400): JsonResponse
+    {
+        return response()->json(['success' => false, 'data' => null, 'error' => $message, 'meta' => null], $status);
+    }
+}
+```
+
 ## Query Objects
 
 Encapsulate complex filter logic in a dedicated class instead of repeating `where` chains at call sites:
@@ -209,7 +238,7 @@ Encapsulate complex filter logic in a dedicated class instead of repeating `wher
 ```php
 final class OrderQuery
 {
-    public function __construct(private Builder $query) {}
+    private function __construct(private Builder $query) {}
 
     public static function make(): self
     {
@@ -271,7 +300,7 @@ use Illuminate\Support\Facades\Cache;
 
 // Cache a computed result for 1 hour
 $summary = Cache::remember("orders.summary.{$userId}", now()->addHour(), function () use ($userId): array {
-    return Order::query()->where('customer_id', $userId)->selectRaw('count(*) as total, sum(total_cents) as revenue')->first()->toArray();
+    return Order::query()->where('customer_id', $userId)->selectRaw('count(*) as total, sum(total_cents) as revenue')->first()?->toArray() ?? [];
 });
 ```
 
@@ -333,7 +362,25 @@ final class SendOrderConfirmation implements ShouldQueue
 }
 ```
 
-Register in `EventServiceProvider::$listen` (Laravel ≤10) or via `Event::listen()` in a provider boot (Laravel 11+).
+Register listeners in `EventServiceProvider::$listen` (Laravel ≤10):
+
+```php
+// app/Providers/EventServiceProvider.php
+protected $listen = [
+    OrderPlaced::class => [
+        SendOrderConfirmation::class,
+    ],
+];
+```
+
+In Laravel 11+, `EventServiceProvider` is removed. Register in `AppServiceProvider::boot()` instead:
+
+```php
+public function boot(): void
+{
+    Event::listen(OrderPlaced::class, SendOrderConfirmation::class);
+}
+```
 
 ### Queue slow work as jobs
 
@@ -355,7 +402,7 @@ final class ProcessOrderExport implements ShouldQueue
         // slow work here
     }
 
-    public function retryUntil(): DateTime
+    public function retryUntil(): \DateTimeInterface
     {
         return now()->addHours(2);
     }

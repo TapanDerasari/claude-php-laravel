@@ -6,6 +6,14 @@ const REQUIRED_FIELDS = ['name', 'description', 'paste-into', 'stack', 'type'];
 const ALLOWED_STACKS = ['php', 'laravel'];
 const ALLOWED_TYPES = ['rule', 'skill', 'agent', 'command', 'hook'];
 
+const PASTE_INTO_RULES = [
+    'rule'    => ['exact'  => 'CLAUDE.md'],
+    'skill'   => ['prefix' => '.claude/skills/', 'suffix' => '/'],
+    'agent'   => ['prefix' => '.claude/agents/', 'suffix' => '.md'],
+    'command' => ['prefix' => '.claude/commands/', 'suffix' => '.md'],
+    'hook'    => ['prefix' => '.claude/settings.json'],
+];
+
 function parseFrontmatter(string $content): ?array
 {
     if (!str_starts_with($content, "---\n")) {
@@ -53,6 +61,27 @@ function validateFile(string $path): array
     }
     if (isset($fm['type']) && !in_array($fm['type'], ALLOWED_TYPES, true)) {
         $errors[] = "$path: invalid type '{$fm['type']}', must be one of " . implode(',', ALLOWED_TYPES);
+    }
+    if (
+        isset($fm['type'], $fm['paste-into'])
+        && in_array($fm['type'], ALLOWED_TYPES, true)
+        && isset(PASTE_INTO_RULES[$fm['type']])
+    ) {
+        $rule = PASTE_INTO_RULES[$fm['type']];
+        $pi = $fm['paste-into'];
+        $ok = true;
+        if (isset($rule['exact']) && $pi !== $rule['exact']) {
+            $ok = false;
+        }
+        if (isset($rule['prefix']) && !str_starts_with($pi, $rule['prefix'])) {
+            $ok = false;
+        }
+        if (isset($rule['suffix']) && !str_ends_with($pi, $rule['suffix'])) {
+            $ok = false;
+        }
+        if (!$ok) {
+            $errors[] = "$path: paste-into '$pi' does not match the expected pattern for type '{$fm['type']}'";
+        }
     }
     $hasCurated = !empty($fm['source']) && !empty($fm['license']);
     $hasOriginal = !empty($fm['author']);

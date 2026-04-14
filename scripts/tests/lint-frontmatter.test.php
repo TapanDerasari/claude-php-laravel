@@ -13,6 +13,7 @@ $cases = [
     ['missing paste-into fails', "$fixtures/invalid-missing-paste-into.md", 1, 'paste-into'],
     ['missing description fails', "$fixtures/invalid-missing-description.md", 1, 'description'],
     ['unknown type fails', "$fixtures/invalid-unknown-type.md", 1, 'type'],
+    ['wrong paste-into fails', "$fixtures/invalid-wrong-paste-into.md", 1, 'paste-into'],
 ];
 
 $failures = 0;

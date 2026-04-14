@@ -7,4 +7,4 @@ the table below alongside any relevant notes.
 
 | File | Upstream source | License | Notes |
 | --- | --- | --- | --- |
-| (pending curation) | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | MIT | Verified 2026-04-14 via GitHub API; MIT is compatible with this repo's MIT license. Individual curated files will list their own source path in frontmatter. |
+| `php/rules/*` | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | MIT | The 5 PHP rule files (`coding-style`, `security`, `testing`, `patterns`, `hooks`) are adapted from upstream `rules/php/<name>.md`. See each file's frontmatter for its specific source path. Verified MIT 2026-04-14 via GitHub API. |

@@ -10,7 +10,7 @@ license: MIT
 
 # PHP Hooks (usage rules)
 
-This rule documents **when** to run common PHP tooling during a Claude Code session. For concrete hook configs, see `laravel/hooks/` once that directory ships.
+This rule documents **when** to run common PHP tooling during a Claude Code session. For concrete hook configs, see `laravel/hooks/`.
 
 ## Composer
 

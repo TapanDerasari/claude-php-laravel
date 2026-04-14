@@ -47,7 +47,7 @@ $request->user()->tokens()->delete();
 Protect routes with `auth:sanctum` and ability checks:
 
 ```php
-Route::middleware(['auth:sanctum', 'abilities:orders:read'])->group(function () {
+Route::middleware(['auth:sanctum', 'ability:orders:read'])->group(function () {
     Route::get('/orders', [OrdersController::class, 'index']);
 });
 ```
@@ -72,8 +72,8 @@ $path = $request->file('document')->store('documents', 'private');
 ```
 
 - Never store user-uploaded files under `public/` or `storage/app/public/` unless you have verified they cannot be executed by the web server.
-- Validate MIME type server-side. The client's `Content-Type` header can be forged.
-- Generate a UUID filename for storage so the original name is never used as a path component.
+- The client's `Content-Type` header can be forged — always validate MIME type server-side.
+- The `store()` method generates a random filename automatically — never pass `$request->file('document')->getClientOriginalName()` to storage path functions.
 
 ## Security headers middleware
 
@@ -115,7 +115,7 @@ Register globally in `bootstrap/app.php` (Laravel 11+):
 })
 ```
 
-Adjust the CSP `script-src` and `style-src` directives to match what your app actually loads. Start strict and loosen as needed — not the reverse.
+Adjust the CSP `script-src` and `style-src` directives to match what your app actually loads. Start strict and loosen as needed — not the reverse. Replace `'unsafe-inline'` in `style-src` with a nonce or hash once you know what inline styles your app uses.
 
 ## CORS config
 
@@ -135,7 +135,7 @@ return [
 ```
 
 - Never set `allowed_origins` to `['*']` on routes that use `auth:sanctum` or session cookies — browsers will block credentialed requests to wildcard origins anyway, and the misconfiguration signals intent.
-- Set `supports_credentials: true` only when the frontend sends cookies (SPA with Sanctum cookie-based auth).
+- Set `'supports_credentials' => true` only when the frontend sends cookies (SPA with Sanctum cookie-based auth).
 - Drive `FRONTEND_URL` from an environment variable so it differs between local, staging, and production.
 
 ## Log redaction
@@ -143,7 +143,7 @@ return [
 Never log passwords, tokens, or sensitive fields. Use Laravel's built-in mechanisms:
 
 ```php
-// In your model — $hidden prevents these fields appearing in toArray() / toJson() / logs
+// In your model — $hidden prevents these fields appearing in toArray() / toJson()
 protected $hidden = ['password', 'remember_token', 'api_token'];
 ```
 
@@ -162,3 +162,5 @@ If you must log request data for debugging, explicitly exclude sensitive keys:
 ```php
 Log::debug('Request payload', $request->except(['password', 'token', 'secret', 'api_key', 'card_number']));
 ```
+
+`except()` only strips top-level keys — nested sensitive fields (e.g., `user.password`) are not excluded.

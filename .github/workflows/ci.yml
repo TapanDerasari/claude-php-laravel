@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint-frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - name: Lint php/ frontmatter
+        run: php scripts/lint-frontmatter.php php
+      - name: Lint laravel/ frontmatter
+        run: php scripts/lint-frontmatter.php laravel
+      - name: Run frontmatter validator tests
+        run: php scripts/tests/lint-frontmatter.test.php
+
+  check-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - name: Check README index is up to date
+        run: php scripts/generate-index.php --check
+      - name: Run index generator tests
+        run: php scripts/tests/generate-index.test.php

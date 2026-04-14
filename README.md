@@ -15,6 +15,7 @@ the path shown in its `paste-into:` frontmatter and you're done.
 <!-- INDEX:START -->
 | Stack | Type | Name | Description | Paste into |
 |-------|------|------|-------------|------------|
+| php | agent | php-code-reviewer | Reviews plain PHP code for PSR-12 style, security issues, and SOLID violations. | `.claude/agents/php-code-reviewer.md` |
 | php | rule | coding-style | PSR-12 formatting, strict types, and naming conventions for PHP code. | `CLAUDE.md` |
 | php | rule | hooks | When to run Composer, PHPStan, and formatters — and how to wire them as Claude Code hooks. | `CLAUDE.md` |
 | php | rule | patterns | SOLID principles, dependency injection, value objects, and composition for PHP. | `CLAUDE.md` |

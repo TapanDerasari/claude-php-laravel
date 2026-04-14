@@ -26,7 +26,7 @@ Add the following to `~/.claude.json` (create the file if it doesn't exist):
 }
 ```
 
-Restart Claude Code after adding this. The `SearchPluginTool` and `GetPluginDetailsTool` tools will only be available once the MCP server is active. This skill will not work without it.
+Restart Claude Code after adding this. The `SearchPluginTool` and `GetPluginDetailsTool` tools will only be available once the MCP server is active.
 
 ## When to use
 
@@ -50,14 +50,15 @@ Locate packages using keywords and filters:
 
 Retrieve detailed metrics, documentation links, and version history for a specific package by its slug.
 
-## Smart filtering strategy
+- `slug` — the package identifier returned by `SearchPluginTool` (e.g., `"spatie/laravel-permission"`)
 
-Always filter by `health_score: Healthy` for production projects. Match `laravel_version` to your project — Laravel 11 and 12 are current; versions 5–9 are end-of-life and unlikely to receive security patches. Combine filters: searching `"permission"` with health and version constraints yields targeted results.
+## Filtering guidance
+
+Always filter by `health_score: Healthy` for production projects. Match `laravel_version` to your project — check laravel.com/docs for current supported versions. Combine filters: searching `"permission"` with health and version constraints yields targeted results.
 
 Prefer established vendors like Spatie and Laravel LLC when available.
 
 ## What NOT to do
 
 - Do not recommend packages with `health_score: Unhealthy` for production use without flagging the risk to the user.
-- Do not skip the `laravel_version` filter — a package without Laravel 11+ support will cause dependency conflicts.
 - Do not run this skill without the MCP server configured — `SearchPluginTool` and `GetPluginDetailsTool` will not be available.

@@ -19,6 +19,7 @@ the path shown in its `paste-into:` frontmatter and you're done.
 | laravel | agent | migration-safety-reviewer | Reviews Laravel migrations for production safety — additive-only changes, FK indexes, and rollback coverage. | `.claude/agents/migration-safety-reviewer.md` |
 | laravel | command | make-migration | Scaffold a Laravel migration with safe defaults, proper rollback, and FK constraints. | `.claude/commands/make-migration.md` |
 | laravel | command | write-pest-test | Scaffold a Pest test for a given Laravel class with the right layout and meaningful assertions. | `.claude/commands/write-pest-test.md` |
+| laravel | hook | laravel-hooks | Laravel-specific Claude Code hooks — Pint auto-format before writes and PHPStan after edits. | `.claude/settings.json (merge the JSON snippets in this folder)` |
 | laravel | rule | blade | Blade templating rules for safe escaping, components, and thin views. | `CLAUDE.md` |
 | laravel | rule | coding-style | Laravel naming, folder conventions, and thin-controller guidance. | `CLAUDE.md` |
 | laravel | rule | eloquent | Eloquent best practices for query safety, performance, and idempotency. | `CLAUDE.md` |

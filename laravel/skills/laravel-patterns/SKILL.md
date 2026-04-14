@@ -219,7 +219,7 @@ To avoid copy-pasting the envelope at every call site, extract a `apiSuccess()` 
 ```php
 trait ApiResponds
 {
-    protected function apiSuccess(mixed $data, array $meta = null, int $status = 200): JsonResponse
+    protected function apiSuccess(mixed $data, ?array $meta = null, int $status = 200): JsonResponse
     {
         return response()->json(['success' => true, 'data' => $data, 'error' => null, 'meta' => $meta], $status);
     }
@@ -355,6 +355,8 @@ final class OrderPlaced
 ```php
 final class SendOrderConfirmation implements ShouldQueue
 {
+    use Queueable;
+
     public function handle(OrderPlaced $event): void
     {
         Mail::to($event->order->customer)->send(new OrderConfirmationMail($event->order));

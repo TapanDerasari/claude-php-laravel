@@ -54,8 +54,10 @@ function validateFile(string $path): array
     if (isset($fm['type']) && !in_array($fm['type'], ALLOWED_TYPES, true)) {
         $errors[] = "$path: invalid type '{$fm['type']}', must be one of " . implode(',', ALLOWED_TYPES);
     }
-    if (empty($fm['source']) && empty($fm['author'])) {
-        $errors[] = "$path: must have either 'source' (curated) or 'author' (original)";
+    $hasCurated = !empty($fm['source']) && !empty($fm['license']);
+    $hasOriginal = !empty($fm['author']);
+    if (!$hasCurated && !$hasOriginal) {
+        $errors[] = "$path: must have either 'source' + 'license' (curated) or 'author' (original)";
     }
     if (isset($fm['type']) && $fm['type'] === 'skill' && basename($path) !== 'SKILL.md') {
         $errors[] = "$path: skill files must be named SKILL.md";
@@ -68,9 +70,6 @@ function walk(string $target): array
     $errors = [];
     if (is_file($target)) {
         return str_ends_with($target, '.md') ? validateFile($target) : [];
-    }
-    if (!is_dir($target)) {
-        return ["$target: path does not exist"];
     }
     $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($target, FilesystemIterator::SKIP_DOTS));
     foreach ($it as $file) {

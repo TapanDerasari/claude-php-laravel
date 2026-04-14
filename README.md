@@ -21,6 +21,9 @@ the path shown in its `paste-into:` frontmatter and you're done.
 | laravel | rule | migrations | Migration safety rules for reversible, low-risk schema changes. | `CLAUDE.md` |
 | laravel | rule | security | Laravel security rules for mass assignment, authz, CSRF, and secrets. | `CLAUDE.md` |
 | laravel | rule | testing-pest | Pest testing conventions for Laravel feature and unit tests. | `CLAUDE.md` |
+| laravel | skill | artisan-make | Use `php artisan make:*` generators idiomatically instead of hand-writing Laravel scaffolding. | `.claude/skills/artisan-make/` |
+| laravel | skill | eloquent-query-builder | Write safe, performant Eloquent queries with eager loading, chunking, scopes, and no N+1 traps. | `.claude/skills/eloquent-query-builder/` |
+| laravel | skill | pest-test-writer | Scaffold a Pest test for a given Laravel class with the right layout, fakes, and meaningful assertions. | `.claude/skills/pest-test-writer/` |
 | php | agent | php-code-reviewer | Reviews plain PHP code for PSR-12 style, security issues, and SOLID violations. | `.claude/agents/php-code-reviewer.md` |
 | php | rule | coding-style | PSR-12 formatting, strict types, and naming conventions for PHP code. | `CLAUDE.md` |
 | php | rule | hooks | When to run Composer, PHPStan, and formatters — and how to wire them as Claude Code hooks. | `CLAUDE.md` |

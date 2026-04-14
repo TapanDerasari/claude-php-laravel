@@ -7,4 +7,4 @@ the table below alongside any relevant notes.
 
 | File | Upstream source | License | Notes |
 | --- | --- | --- | --- |
-| (pending curation) | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | TBD (verify in task 9) | (pending curation) |
+| (pending curation) | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | MIT | Verified 2026-04-14 via GitHub API; MIT is compatible with this repo's MIT license. Individual curated files will list their own source path in frontmatter. |
